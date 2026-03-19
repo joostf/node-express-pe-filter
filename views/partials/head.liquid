@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerdy Pizzas</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-home"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg> 
+              Home
+            </a>
+          </li>
+
+          <li>
+            <a href="/pizzas">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-pizza"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 21.5c-3.04 0 -5.952 -.714 -8.5 -1.983l8.5 -16.517l8.5 16.517a19.09 19.09 0 0 1 -8.5 1.983" /><path d="M5.38 15.866a14.94 14.94 0 0 0 6.815 1.634a14.944 14.944 0 0 0 6.502 -1.479" /><path d="M13 11.01v-.01" /><path d="M11 14v-.01" /></svg>
+              Alle pizza's
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <form action="/pizzas" method="GET">
+        <label>
+          Filter op type
+
+          <select name="type">
+            <option value="" {% if selectedType == "" %}selected{% endif %}>alle pizza's</option>
+            <option value="vegetarisch" {% if selectedType == "vegetarisch" %}selected{% endif %}>vegetarisch</option>
+            <option value="vlees" {% if selectedType == "vlees" %}selected{% endif %}>vlees</option>
+            <option value="vis" {% if selectedType == "vis" %}selected{% endif %}>vis</option>
+          </select>
+
+          <input type="submit" value="filter">
+        </label>
+      </form>
+    </header>
+    

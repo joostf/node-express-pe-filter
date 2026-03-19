@@ -1,0 +1,20 @@
+<article>
+  <header>
+    <h2>{{ pizza.name }}</h2>
+  </header>
+
+  {% if pizza.image %}
+  <img
+    src="https://fdnd-agency.directus.app/assets/{{ pizza.image }}"
+    alt="{{ pizza.name }}"
+  >
+  {% endif %}
+
+  {% if showDetail %}
+    <p>{{pizza.description}}</p>
+  {% endif %}
+
+  <footer>
+    Aantal keer besteld: {{pizza.ordered}}
+  </footer>
+</article>

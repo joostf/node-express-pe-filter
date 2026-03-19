@@ -1,0 +1,19 @@
+{% render 'partials/head.liquid' %}
+
+
+
+<main>
+  <header>
+    <h1>Onze populairste pizza's</h1>
+  </header>
+  
+  {% for pizza in pizzas %}
+    <a href="/pizzas/{{pizza.slug}}">
+      {% render 'partials/pizza_card.liquid', pizza:pizza %}
+    </a>
+  {% endfor %}
+</main>
+
+
+
+{% render 'partials/foot.liquid' %}
