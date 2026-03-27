@@ -32,8 +32,13 @@ app.get('/pizzas', async function (request, response) {
     params.set('filter[type][_eq]', type)
   }
 
+   // const { type = '', price = '' } = request.query
+
   const pizzasResponse = await fetch(`${baseURL}?${params.toString()}`)
   const pizzas = await pizzasResponse.json()
+
+  // const { type = '', price = '' } = request.query // use object destructuring
+  // type && params.set('filter[type][_eq]', type) // use short circuiting
   
   response.render('pizzas.liquid', {pizzas: pizzas.data, meta: pizzas.meta, selectedType: type || ''})
 })

@@ -8,12 +8,50 @@ app.use(express.static('public'))
 app.engine('liquid', engine.express()) 
 app.set('views', './views')
 
+//route aanmaken
+// data uit de api/db halen
+// data doorgeven aan de view
+// de view gaat ahv de data html renderen
+// de html wordt teruggeven aan de browser aka client
+
+//route aanmaken
+app.get('/', async function(request, response){
+  // data uit de API/DB halen
+  const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
+  const pizzasJSON = await pizzasResponse.json()
+  const pizzas = pizzasJSON.data
+
+  console.log(pizzasJSON)
+
+  // data meegeven aan de view & HTML renderen & tenslotte teruggeven aan de browser aka client
+  response.render('index.liquid', { pizzas })
+})
+
 // URL's & Endpoints
 // HOME (/)
-// https://fdnd-agency.directus.app/items/demo_pizzas?sort[]=-ordered&limit=4
+// https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4
+
+// route aanmaken
+// app.get('/', async function(request, response){
+//   // data uit de API/DB halen
+//   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
+//   const pizzasJSON = await pizzasResponse.json()
+
+//   // data meegeven aan de view & HTML renderen & tenslotte teruggeven aan de browser aka client
+//   response.render('index.liquid', { pizzas: pizzasJSON.data })
+// })
 
 // PIZZAS (/pizzas)
 // https://fdnd-agency.directus.app/items/demo_pizzas?sort=name&meta=total_count,filter_count
+// app.get('/pizzas', async function(request, response){
+//   // data uit de API/DB halen
+//   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=name&meta=total_count,filter_count')
+//   const pizzasJSON = await pizzasResponse.json()
+
+//   console.log(pizzasJSON)
+
+//   response.render('pizzas.liquid', { pizzas: pizzasJSON.data, meta: pizzasJSON.meta })  
+// })
 
 // PIZZAS FILTERED (/pizzas?type=vegetarisch)
 // https://fdnd-agency.directus.app/items/demo_pizzas?sort=name&meta=total_count,filter_count&filter[type][_eq]=vegetarisch
@@ -21,13 +59,30 @@ app.set('views', './views')
 // PIZZA (/pizzas/caprese-captioni)
 // https://fdnd-agency.directus.app/items/demo_pizzas?filter[slug][_eq]=caprese-captioni
 
-app.get('/', async function(request, response){
-  const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
-  const pizzasJSON = await pizzasResponse.json()
 
-  response.render('index.liquid', { pizza:pizzasResponse })
 
-})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// app.get('/', async function(request, response){
+//   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
+//   const pizzasJSON = await pizzasResponse.json()
+
+//   response.render('index.liquid', { pizza:pizzasResponse })
+// })
 
 
 

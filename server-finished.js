@@ -20,8 +20,6 @@ app.get('/pizzas', async function (request, response) {
 
   const type = request.query.type || ''
   const price = request.query.price || ''
-  
-  // const { type = '', price = '' } = request.query // use object destructuring
 
   if (price === 'low-high') {
     params.set('sort', 'price')
@@ -34,15 +32,14 @@ app.get('/pizzas', async function (request, response) {
   if (type) {
     params.set('filter[type][_eq]', type)
   }
-
-  // type && params.set('filter[type][_eq]', type) // use short circuiting
     
-
   params.set('meta', 'total_count,filter_count')
 
   const url = 'https://fdnd-agency.directus.app/items/demo_pizzas?' + params.toString()
   const pizzasResponse = await fetch(url)
   const pizzasJSON = await pizzasResponse.json()
+
+  console.log(pizzasJSON)
   
   response.render('pizzas.liquid', {
     pizzas: pizzasJSON.data,
@@ -56,7 +53,7 @@ app.get('/pizzas/:slug', async function (request, response) {
   const pizzaResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?filter[slug][_eq]=' + request.params.slug)
   const pizzaJSON = await pizzaResponse.json()
 
-  response.render('pizza.liquid', {pizza: pizzaJSON.data[0]})
+  response.render('pizza.liquid', { pizza: pizzaJSON.data[0] })
 })
 
 app.set('port', process.env.PORT || 8001)
