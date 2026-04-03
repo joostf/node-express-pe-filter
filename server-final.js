@@ -12,7 +12,15 @@ app.get('/', async function (request, response) {
   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort[]=-ordered&limit=4')
   const pizzasJSON = await pizzasResponse.json()
 
-  response.render('index.liquid', {pizzas: pizzasJSON.data})
+  response.render('index.liquid', {
+    pizzas: pizzasJSON.data,
+    selectedType: '',
+    selectedSort: '',
+    meta: {
+      filter_count: pizzasJSON.data.length,
+      total_count: pizzasJSON.data.length
+    }
+  })
 })
 
 app.get('/pizzas', async function (request, response) {
@@ -20,6 +28,7 @@ app.get('/pizzas', async function (request, response) {
 
   const type = request.query.type || ''
   const price = request.query.price || ''
+  const enhanced = request.query.enhanced || ''
 
   if (price === 'low-high') {
     params.set('sort', 'price')
@@ -39,14 +48,18 @@ app.get('/pizzas', async function (request, response) {
   const pizzasResponse = await fetch(url)
   const pizzasJSON = await pizzasResponse.json()
 
-  console.log(pizzasJSON)
-  
-  response.render('pizzas.liquid', {
+  const templateData = {
     pizzas: pizzasJSON.data,
     selectedType: type,
     selectedSort: price,
     meta: pizzasJSON.meta
-  })
+  }
+
+  if (enhanced) {
+    response.render('partials/pizza_list.liquid', templateData)
+  } else {
+    response.render('pizzas.liquid', templateData)
+  }
 })
 
 app.get('/pizzas/:slug', async function (request, response) { 

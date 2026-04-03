@@ -20,9 +20,7 @@ app.get('/', async function(request, response){
   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
   const pizzasJSON = await pizzasResponse.json()
   const pizzas = pizzasJSON.data
-
-  console.log(pizzasJSON)
-
+  
   // data meegeven aan de view & HTML renderen & tenslotte teruggeven aan de browser aka client
   response.render('index.liquid', { pizzas })
 })

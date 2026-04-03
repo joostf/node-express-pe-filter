@@ -1,0 +1,40 @@
+  <header>
+    <h1>
+      Nerdy pizza's <small>{{ meta.filter_count }} / {{ meta.total_count }}</small>
+    </h1>
+
+    <p>
+      {%- if selectedType != "" -%}
+        {%- case selectedType -%}
+          {%- when "vegetarisch" -%}
+            {%- assign icon = "🥦" -%}
+          {%- when "vlees" -%}
+            {%- assign icon = "🥩" -%}
+          {%- when "vis" -%}
+            {%- assign icon = "🐟" -%}
+          {%- else -%}
+            {%- assign icon = "🍕" -%}
+        {%- endcase -%}
+        <span>Gefilterd op <strong>{{ selectedType }} {{ icon }}</strong></span>
+      {%- endif -%}
+
+      {%- if selectedSort != "" -%}
+        {%- case selectedSort -%}
+          {%- when "low-high" -%}
+            {%- assign sortLabel = "<strong>prijs:</strong> laag 💰 → hoog 💰💰💰" -%}
+          {%- when "high-low" -%}
+            {%- assign sortLabel = "<strong>prijs:</strong> hoog 💰💰💰 → laag 💰" -%}
+          {%- else -%}
+            {%- assign sortLabel = "standaard volgorde" -%}
+        {%- endcase -%}
+      <span>{%- if selectedType != "" -%}en&nbsp;{%- endif -%}gesorteerd op {{ sortLabel }}</span>
+      {%- endif -%}
+    </p>
+
+  </header>
+  
+  {% for pizza in pizzas %}
+    <a href="/pizzas/{{ pizza.slug }}">
+      {% render 'partials/pizza_card.liquid', pizza:pizza %}
+    </a>
+  {% endfor %}
