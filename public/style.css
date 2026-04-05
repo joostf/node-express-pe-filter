@@ -119,7 +119,7 @@ body {
       flex-direction: column;
       width:calc(100% - 2rem);
 
-      @media (min-width:40rem) {
+      @media (min-width:43.75rem) {
          flex-direction: row;
          padding: .5rem 1rem;
          width:auto;
@@ -129,6 +129,10 @@ body {
         background-color: var(--pizza-green);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         color:var(--pizza-white);
+      }
+      
+      label {
+        font-weight: bold;
       }
 
       select,
@@ -141,9 +145,11 @@ body {
         border:none;
         margin-top: .5rem;
         line-height: 2;
+        font-weight: normal;
 
-        @media (min-width:40rem) {
+        @media (min-width:43.75rem) {
           margin-top: 0;
+          line-height: 1.5;
         }
       }
 
@@ -172,7 +178,7 @@ body {
 
         width:100%;
 
-        @media (min-width:40rem) {
+        @media (min-width:43.75rem) {
           width: fit-content;
         }
 
@@ -261,6 +267,10 @@ main {
     height:fit-content;
   }
 
+  p:empty {
+    display:none;
+  }
+
   > header {
     grid-column: 1 / -1;
     grid-row:auto;
@@ -268,6 +278,7 @@ main {
 
     h1 {
       font-weight:100;
+      font-size: clamp(1.25rem, -2rem + 10vw, 3rem);
 
       small {
         font-size:1rem;
@@ -276,10 +287,14 @@ main {
 
     p {
       height:1.5rem;
-      margin-bottom: -1rem;
+      margin-bottom: 2rem;
       display:flex;
       flex-wrap:wrap;
       gap:.5rem;
+
+      @media (min-width:43.75rem) {
+        margin-bottom: -1rem;
+      }
 
       span:first-of-type {
         &::first-letter {

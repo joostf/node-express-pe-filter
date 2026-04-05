@@ -1,6 +1,9 @@
 const form = document.querySelector('form')
 const typeSelect = form.querySelector('select[name="type"]')
 const priceSelect = form.querySelector('select[name="price"]')
+const button = form.querySelector('input[type="submit"]')
+
+button.hidden = true
 
 form.addEventListener('submit', e => e.preventDefault())
 
@@ -31,4 +34,3 @@ async function updateContent() {
 function updateMain(filteredPizzas) {
   document.querySelector('main').innerHTML = filteredPizzas
 } 
-
