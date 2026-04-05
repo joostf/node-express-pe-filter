@@ -1,6 +1,6 @@
   <header>
     <h1>
-      Nerdy pizza's <small>{{ meta.filter_count }} / {{ meta.total_count }}</small>
+      {{ title | default: "Alle nerdy pizza's" }} <small>{{ meta.filter_count }} / {{ meta.total_count }}</small>
     </h1>
 
     <p>
@@ -33,8 +33,12 @@
 
   </header>
   
-  {% for pizza in pizzas %}
-    <a href="/pizzas/{{ pizza.slug }}">
-      {% render 'partials/pizza_card.liquid', pizza:pizza %}
-    </a>
-  {% endfor %}
+  <ul>
+    {% for pizza in pizzas %}
+      <li>
+        <a href="/pizzas/{{ pizza.slug }}">
+          {% render 'partials/pizza_card.liquid', pizza:pizza %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>

@@ -10,9 +10,11 @@
   >
   {% endif %}
 
-  {% if showDetail %}
-    <p>{{pizza.description}}</p>
-  {% endif %}
+  <div>
+    {% if showDetail %}
+      <p>{{pizza.description}}</p>
+    {% endif %}
+  </div>
 
   <footer>
     <p>Aantal keer besteld: {{pizza.ordered}}</p>
