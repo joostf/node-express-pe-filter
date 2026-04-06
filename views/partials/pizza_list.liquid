@@ -15,19 +15,19 @@
           {%- else -%}
             {%- assign icon = "🍕" -%}
         {%- endcase -%}
-        <span>Gefilterd op <strong>{{ selectedType }} {{ icon }}</strong></span>
+        <span>{{ icon }}</span>
       {%- endif -%}
 
       {%- if selectedSort != "" -%}
         {%- case selectedSort -%}
           {%- when "low-high" -%}
-            {%- assign sortLabel = "<strong>prijs:</strong> laag 💰 → hoog 💰💰💰" -%}
+            {%- assign sortLabel = "💰 → 💰💰💰" -%}
           {%- when "high-low" -%}
-            {%- assign sortLabel = "<strong>prijs:</strong> hoog 💰💰💰 → laag 💰" -%}
+            {%- assign sortLabel = "💰💰💰 → 💰" -%}
           {%- else -%}
             {%- assign sortLabel = "standaard volgorde" -%}
         {%- endcase -%}
-      <span>{%- if selectedType != "" -%}en&nbsp;{%- endif -%}gesorteerd op {{ sortLabel }}</span>
+      <span>{%- if selectedType != "" -%}/ &nbsp;{%- endif -%}{{ sortLabel }}</span>
       {%- endif -%}
     </p>
 
