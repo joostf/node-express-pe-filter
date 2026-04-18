@@ -6,7 +6,6 @@
 
 ::view-transition-new(.pizza) {
   animation: pizza-enter 0.4s ease-in both;
-  animation-delay: var(--delay);
 }
 
 ::view-transition-old(.pizza) {
@@ -344,7 +343,7 @@ main {
 
       @media (min-width: 43.75rem) {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 30rem));
         align-items: stretch;
       }
 
@@ -354,7 +353,6 @@ main {
     }
 
   article {
-    --delay: calc(sibling-index() * 1000ms);
     view-transition-class: pizza;
     border: 1px solid var(--pizza-green);
     padding: 1rem;
@@ -392,17 +390,24 @@ main {
         display:grid;
         grid-template-columns: 2fr 1fr;
         gap:1rem 3rem;
-        max-width:75vw;
+        max-width:50vw;
       }
 
       header {
         grid-column: 1 / -1;
+
+        @media (min-width: 43.75rem) {
+          grid-column:auto;
+        }
       }
 
       img {
         grid-column: 1 / 2;
-        grid-row: span 2;
-        margin:0 0 -.5rem -1rem;
+        grid-row: span 3;
+        
+        @media (min-width: 43.75rem) {
+          margin:-1rem 0 -.5rem -1rem;
+        }
       }
 
       div,

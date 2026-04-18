@@ -1,4 +1,4 @@
-<article {% if showDetail %}class="show-detail"{% endif %} class="pizza" style="view-transition-name: pizza-{{pizza.id}};">
+<article class="pizza {% if showDetail %}show-detail{% endif %}" style="view-transition-name: pizza-{{pizza.id}};">
   {% if pizza.image %}
     <img
       src="https://fdnd-agency.directus.app/assets/{{ pizza.image }}"
