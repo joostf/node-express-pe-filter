@@ -1,6 +1,6 @@
   <header>
     <h1>
-      {{ title | default: "Alle nerdy pizza's" }} <small>{{ meta.filter_count }} / {{ meta.total_count }}</small>
+      {{ title | default: "Nerdy pizza's" }} <small>{{ meta.filter_count }} / {{ meta.total_count }}</small>
     </h1>
 
     <p>
@@ -9,11 +9,11 @@
           {%- when "vegetarisch" -%}
             {%- assign icon = "🥦" -%}
           {%- when "vlees" -%}
-            {%- assign icon = "🥩" -%}
+            {%- assign icon = "soort: 🥩" -%}
           {%- when "vis" -%}
-            {%- assign icon = "🐟" -%}
+            {%- assign icon = "soort: 🐟" -%}
           {%- else -%}
-            {%- assign icon = "🍕" -%}
+            {%- assign icon = "soort: 🍕" -%}
         {%- endcase -%}
         <span>{{ icon }}</span>
       {%- endif -%}
@@ -21,9 +21,9 @@
       {%- if selectedSort != "" -%}
         {%- case selectedSort -%}
           {%- when "low-high" -%}
-            {%- assign sortLabel = "💰 → 💰💰💰" -%}
+            {%- assign sortLabel = "prijs: 💰 → 💰💰" -%}
           {%- when "high-low" -%}
-            {%- assign sortLabel = "💰💰💰 → 💰" -%}
+            {%- assign sortLabel = "prijs: 💰💰 → 💰" -%}
           {%- else -%}
             {%- assign sortLabel = "standaard volgorde" -%}
         {%- endcase -%}

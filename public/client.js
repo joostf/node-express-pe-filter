@@ -2,6 +2,7 @@ const form = document.querySelector('form')
 const typeSelect = form.querySelector('select[name="type"]')
 const priceSelect = form.querySelector('select[name="price"]')
 const button = form.querySelector('input[type="submit"]')
+const loader = document.querySelector('.loader')
 
 button.hidden = true
 
@@ -16,8 +17,13 @@ async function updateContent() {
 
   params.set('enhanced', 'true')
 
+  loader.classList.add('loading')
+
   const response = await fetch('/pizzas?' + params.toString())
   const filteredPizzas = await response.text()
+
+  // Simuleer een langere laadtijd om altijd de loader te tonen
+  await new Promise(resolve => setTimeout(resolve, 500))
   
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   
@@ -26,6 +32,8 @@ async function updateContent() {
   } else {
     updateMain(filteredPizzas)
   }
+
+  loader.classList.remove('loading')
   
   params.delete('enhanced')
   history.pushState(null, '', '/pizzas?' + params.toString())

@@ -1,14 +1,16 @@
 <article {% if showDetail %}class="show-detail"{% endif %} class="pizza" style="view-transition-name: pizza-{{pizza.id}};">
+  {% if pizza.image %}
+    <img
+      src="https://fdnd-agency.directus.app/assets/{{ pizza.image }}"
+      alt="{{ pizza.name }}"
+      width="300"
+      height="300"
+    >
+  {% endif %}
+  
   <header>
     <h2>{{ pizza.name }}</h2>
   </header>
-
-  {% if pizza.image %}
-  <img
-    src="https://fdnd-agency.directus.app/assets/{{ pizza.image }}"
-    alt="{{ pizza.name }}"
-  >
-  {% endif %}
 
   <div>
     {% if showDetail %}
