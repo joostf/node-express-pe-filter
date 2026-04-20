@@ -1,17 +1,25 @@
+// bindings
 const form = document.querySelector('form')
-const typeSelect = form.querySelector('select[name="type"]')
-const priceSelect = form.querySelector('select[name="price"]')
+const selects = form.querySelectorAll('select')
 const button = form.querySelector('input[type="submit"]')
 const loader = document.querySelector('.loader')
 
+// logic
 button.hidden = true
 
 form.addEventListener('submit', e => e.preventDefault())
 
-typeSelect.addEventListener('change', updateContent)
-priceSelect.addEventListener('change', updateContent)
+selects.forEach(select => {
+  select.addEventListener('change', () => fetchPizzas({ pushState: true }))
+})
 
-async function updateContent() {
+window.addEventListener('popstate', () => {
+  syncFilterState()
+  fetchPizzas({ pushState: false })
+})
+
+// function declarations
+async function fetchPizzas({ pushState = false } = {}) {
   const formData = new FormData(form)
   const params = new URLSearchParams(formData)
 
@@ -22,23 +30,39 @@ async function updateContent() {
   const response = await fetch('/pizzas?' + params.toString())
   const filteredPizzas = await response.text()
 
-  // Simuleer een langere laadtijd om altijd de loader te tonen
+  // Mimic network delay for demonstration purposes
   await new Promise(resolve => setTimeout(resolve, 500))
-  
+
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  
+
   if (document.startViewTransition && !prefersReducedMotion) {
-    document.startViewTransition(updateMain.bind(null, filteredPizzas))
+    document.startViewTransition(() => { 
+      renderPizzas(filteredPizzas) 
+    })
   } else {
-    updateMain(filteredPizzas)
+    renderPizzas(filteredPizzas)
   }
 
   loader.classList.remove('loading')
-  
-  params.delete('enhanced')
-  history.pushState(null, '', '/pizzas?' + params.toString())
+
+  if (pushState) {
+    params.delete('enhanced')
+    history.pushState(null, '', '/pizzas?' + params.toString())
+  }
 }
 
-function updateMain(filteredPizzas) {
+function renderPizzas(filteredPizzas) {
   document.querySelector('main').innerHTML = filteredPizzas
-} 
+}
+
+function syncFilterState() {
+  const params = new URLSearchParams(window.location.search)
+
+  if (params.has('type')) {
+    typeSelect.value = params.get('type')
+  }
+
+  if (params.has('price')) {
+    priceSelect.value = params.get('price')
+  }
+}

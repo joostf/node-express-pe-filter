@@ -8,135 +8,72 @@ app.use(express.static('public'))
 app.engine('liquid', engine.express()) 
 app.set('views', './views')
 
-//route aanmaken
-// data uit de api/db halen
-// data doorgeven aan de view
-// de view gaat ahv de data html renderen
-// de html wordt teruggeven aan de browser aka client
-
-//route aanmaken
-app.get('/', async function(request, response){
-  // data uit de API/DB halen
-  const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
+app.get('/', async function (request, response) {
+  const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort[]=-ordered&limit=4')
   const pizzasJSON = await pizzasResponse.json()
-  const pizzas = pizzasJSON.data
-  
-  // data meegeven aan de view & HTML renderen & tenslotte teruggeven aan de browser aka client
-  response.render('index.liquid', { pizzas })
+
+  response.render('index.liquid', {
+    pizzas: pizzasJSON.data,
+    selectedType: '',
+    selectedSort: '',
+    meta: {
+      filter_count: pizzasJSON.data.length,
+      total_count: pizzasJSON.data.length
+    }
+  })
 })
 
-// URL's & Endpoints
-// HOME (/)
-// https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4
+app.get('/pizzas', async function (request, response) {
+  const params = new URLSearchParams()
 
-// route aanmaken
-// app.get('/', async function(request, response){
-//   // data uit de API/DB halen
-//   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
-//   const pizzasJSON = await pizzasResponse.json()
+  const type = request.query.type || ''
+  const price = request.query.price || ''
+  const enhanced = request.query.enhanced || ''
 
-//   // data meegeven aan de view & HTML renderen & tenslotte teruggeven aan de browser aka client
-//   response.render('index.liquid', { pizzas: pizzasJSON.data })
-// })
+  if (price === 'low-high') {
+    params.set('sort', 'price')
+  } else if (price === 'high-low') {
+    params.set('sort', '-price') 
+  } else {
+    params.set('sort', 'name') 
+  }
 
-// PIZZAS (/pizzas)
-// https://fdnd-agency.directus.app/items/demo_pizzas?sort=name&meta=total_count,filter_count
-// app.get('/pizzas', async function(request, response){
-//   // data uit de API/DB halen
-//   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=name&meta=total_count,filter_count')
-//   const pizzasJSON = await pizzasResponse.json()
+  if (type) {
+    params.set('filter[type][_eq]', type)
+  }
+    
+  params.set('meta', 'total_count,filter_count')
 
-//   console.log(pizzasJSON)
+  const url = 'https://fdnd-agency.directus.app/items/demo_pizzas?' + params.toString()
+  const pizzasResponse = await fetch(url)
+  const pizzasJSON = await pizzasResponse.json()
 
-//   response.render('pizzas.liquid', { pizzas: pizzasJSON.data, meta: pizzasJSON.meta })  
-// })
+  // Mimic network delay for demonstration purposes
+  // await new Promise(resolve => setTimeout(resolve, 5000))
 
-// PIZZAS FILTERED (/pizzas?type=vegetarisch)
-// https://fdnd-agency.directus.app/items/demo_pizzas?sort=name&meta=total_count,filter_count&filter[type][_eq]=vegetarisch
+  const templateData = {
+    pizzas: pizzasJSON.data,
+    selectedType: type,
+    selectedSort: price,
+    meta: pizzasJSON.meta
+  }
 
-// PIZZA (/pizzas/caprese-captioni)
-// https://fdnd-agency.directus.app/items/demo_pizzas?filter[slug][_eq]=caprese-captioni
+  if (enhanced) {
+    response.render('partials/pizza_list.liquid', templateData)
+  } else {
+    response.render('pizzas.liquid', templateData)
+  }
+})
 
+app.get('/pizzas/:slug', async function (request, response) { 
+  const pizzaResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?filter[slug][_eq]=' + request.params.slug)
+  const pizzaJSON = await pizzaResponse.json()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// app.get('/', async function(request, response){
-//   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
-//   const pizzasJSON = await pizzasResponse.json()
-
-//   response.render('index.liquid', { pizza:pizzasResponse })
-// })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// URL's & Endpoints
-// HOME (/)
-// https://fdnd-agency.directus.app/items/demo_pizzas?sort[]=-ordered&limit=4
-// app.get('/', async function(request, response){
-//   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?sort=-ordered&limit=4')
-//   const pizzasJson = await pizzasResponse.json()
-
-//   response.render('index.liquid', { pizzas:pizzasJson.data } )
-// })
-
-// PIZZAS (/pizzas)
-// https://fdnd-agency.directus.app/items/demo_pizzas?sort=name&meta=total_count,filter_count
-
-// PIZZAS FILTERED (/pizzas?type=vegetarisch)
-// 
-
-// app.get('/pizzas', async function(request, response){
-//   const params = new URLSearchParams()
-  
-//   params.set('sort', 'name')
-//   params.set('meta', 'total_count,filter_count')
-
-//   if (request.query.type) {
-//     params.set('filter[type][_eq]', request.query.type)
-//   }
-
-//   const pizzasResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?' + params.toString())
-//   const pizzasJSON = await pizzasResponse.json()
-  
-//   response.render('pizzas.liquid', {pizzas: pizzasJSON.data, selectedType: request.query.type || '', meta: pizzasJSON.meta})
-// })
-
-// PIZZA (/pizzas/caprese-captioni)
-// https://fdnd-agency.directus.app/items/demo_pizzas?filter[slug][_eq]=caprese-captioni
-// app.get('/pizzas/:slug', async function(request, response){
-//   const pizzaResponse = await fetch('https://fdnd-agency.directus.app/items/demo_pizzas?filter[slug][_eq]=' + request.params.slug)
-//   const pizzaJson = await pizzaResponse.json()
-
-//   response.render('pizza.liquid', { pizza:pizzaJson.data[0] } )
-// })
+  response.render('pizza.liquid', { pizza: pizzaJSON.data[0] })
+})
 
 app.set('port', process.env.PORT || 8001)
+
 app.listen(app.get('port'), function () {
   console.log(`Application started on http://localhost:${app.get('port')}`)
 })
