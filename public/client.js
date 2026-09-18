@@ -78,23 +78,12 @@ function syncFilterState() {
 }
 
 /*
-
   Code flow when a user changes a filter or navigates with the browser history:
-
   1. A change event on a filter calls handleChange().
-
   2. handleChange() calls fetchPizzas() with pushState enabled.
-
-  3. fetchPizzas() calls buildFilterUrl(), which converts the form values into
-    a URL such as /pizzas?type=vis&enhanced=true.
-
+  3. fetchPizzas() calls buildFilterUrl(), which converts the form values into a URL such as /pizzas?type=vis&enhanced=true.
   4. fetchPizzas() requests the filtered pizza HTML from the server.
-
   5. renderPizzas() replaces the contents of <main> with the new results.
-
   6. The URL is updated with history.pushState() without a full browser reload.
-
-  7. When the user goes back or forward, popstate calls handlePopState(), which
-    restores the filter values and fetches the matching pizza results again.
-
+  7. When the user goes back or forward, popstate calls handlePopState(), which restores the filter values and fetches the matching pizza results again.
   */
