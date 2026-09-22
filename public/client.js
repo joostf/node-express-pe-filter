@@ -10,9 +10,7 @@ button.hidden = true
 
 form.addEventListener('submit', handleSubmit)
 
-selects.forEach(select => {
-  select.addEventListener('change', handleChange)
-})
+selects.forEach(select => select.addEventListener('change', handleChange))
 
 window.addEventListener('popstate', handlePopState)
 
