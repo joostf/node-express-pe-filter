@@ -72,13 +72,6 @@ body {
   > header {
     display:flex;
     flex-direction: column;
-
-    @container (min-width: 43.75em) {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items:center; 
-      flex-wrap: wrap;
-    }
     
     nav {
       padding:0 1rem;
